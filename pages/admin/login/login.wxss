@@ -1,0 +1,82 @@
+/**login.wxss**/
+
+page {
+  width: 100%;
+  height: 100%;
+  font-family: PingFangSC-Regular;
+}
+
+.page_bg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.bg_image {
+  width: 100%;
+  height: 100%;
+}
+
+.login_box {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  bottom: 25.3%;
+}
+
+.login_submit {
+  width: 520rpx;
+  height: 88rpx;
+  background: #0076ff;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+  letter-spacing: 30rpx;
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 28rpx;
+  padding-right: 28rpx;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff;
+  line-height: 2.55555556;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  overflow: hidden;
+}
+
+.username_item, .password_item {
+  border-bottom: 1rpx solid #d9dde4;
+  width: 520rpx;
+  height: 60rpx;
+  margin-bottom: 65rpx;
+  display: flex;
+  align-items: center;
+}
+
+.username_svg, .password_svg {
+  width: 40rpx;
+  height: 40rpx;
+  margin: 20rpx;
+  float: left;
+}
+
+.bussiness_input {
+  width: 450rpx;
+  height: 38rpx;
+  font-size: 32rpx;
+  color: #d9dde4;
+  letter-spacing: -0.78rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}

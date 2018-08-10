@@ -1,0 +1,74 @@
+<scroll-view>
+  <view id='header'>
+    <view class='main_bg'>
+      <view id='user'>
+        <view id='user_logo'>
+          <image src='http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/813b762640b088fb805bd8dea0c0d2e7.jpg'></image>
+        </view>
+        <view id='user_detail'>
+          <text class='blog_title'>恶搞大王的博客\n</text>
+          <text class='blog_title_desc'>Egdw's Blog</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view id='main'>
+    <view id='main_top'>
+      <view id='main_title'>
+        <text>{{page.title}}</text>
+      </view>
+      <view id='main_date'>
+        <text> {{page.createdAt}}发布，{{page.watch}} 人读过</text>
+      </view>
+      <view id='back' bindtap='goBack'>
+        <text> 返回首页 </text>
+      </view>
+    </view>
+    <view id='main_page'>
+      <!-- 暂时还没有数据.... -->
+      <import src="../../towxml/entry.wxml" />
+      <template is="entry" data="{{...article}}" />
+    </view>
+  </view>
+  <view id='talk_div' wx:if="{{commentsHasData}}">
+    <view id='talk'>
+      <view class='talk_count'>
+        <text>共{{commentsAllCount}}条评论</text>
+      </view>
+      <view class='talk_ul'>
+        <view class='talk_li' wx:for="{{comments}}" wx:key="{{item.objectId}}">
+          <view class='talk_user_logo'>
+            <image src='{{item.pic}}'></image>
+          </view>
+          <view class='talk_details'>
+            <view class='talk_username'>
+              {{item.nickname}}
+              <text>{{item.provice}}</text>
+            </view>
+            <view class='talk_comments'>
+              {{item.message}}
+            </view>
+          </view>
+        </view>
+
+      </view>
+    </view>
+  </view>
+  <form bindsubmit='addcomments'>
+
+    <view id='footer_div'>
+
+      <view id='footer'>
+        <view class='talk_input'>
+          <input name="inputComment" type='text' placeholder='请输入评论...' placeholder-class='talk_input_placeholder' maxlength='100' value=''></input>
+        </view>
+        <view class='talk_commit'>
+          <button wx:if="{{canIUse}}" open-type='getUserInfo' formType="submit">评论</button>
+          <view wx:else>请升级微信版本</view>
+        </view>
+
+      </view>
+    </view>
+  </form>
+
+</scroll-view>

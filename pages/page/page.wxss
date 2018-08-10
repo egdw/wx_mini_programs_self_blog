@@ -1,0 +1,214 @@
+/**基础风格样式**/
+@import '../../towxml/style/main.wxss';
+
+
+/**如果页面有动态主题切换，则需要将使用到的样式全部引入**/
+
+/**主题配色（浅色样式）**/
+@import '../../towxml/style/theme/light.wxss';
+
+/**主题配色（深色样式）**/
+@import '../../towxml/style/theme/dark.wxss';
+
+
+.main_bg {
+  width: 100%;
+  height: 334rpx;
+  text-align: center;
+  background-image: url('http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/ad53bc244048f8ec8044285325815277.jpg');
+  background-position: center center;
+  background-attachment: scroll;
+}
+
+.main_bg #user {
+  width: 100%;
+  height: 150rpx;
+  position: absolute;
+  top: 75rpx;
+}
+
+#user {
+  display: flex;
+}
+
+#user_logo image {
+  width: 120rpx;
+  height: 120rpx;
+  border-width: 5rpx;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.6);
+  border-radius: 60px;
+  float: right;
+  margin-top: 18rpx;
+}
+
+#user_logo {
+  flex: 3.5;
+}
+
+#user_detail {
+  flex: 4;
+  text-align: left;
+  display: flex;
+  margin-left: 20rpx;
+  flex-direction: column
+}
+
+.blog_title {
+  color: white;
+  opacity: 0.8;
+  font-size: 30rpx;
+  padding-top: 40rpx;
+  flex: 1;
+}
+
+.blog_title_desc{
+  color: white;
+  opacity: 0.8;
+  font-size: 30rpx;
+  flex: 1;
+}
+
+
+
+
+#main{
+  padding: 40rpx;
+}
+
+#main_title{
+  text-align: center;
+  font-weight: bold;
+  font-size: 60rpx;
+}
+
+#main_date{
+  text-align: center;
+  font-size: 20rpx;
+  color: #888;
+}
+
+#back{
+  text-align: center;
+  font-size: 20rpx;
+  color: #888;
+  margin-top: 30rpx;
+}
+
+#main_page{
+  padding-top: 50rpx;
+}
+
+#footer_div{
+  position: fixed;
+  bottom: 0;
+  left:0;
+  right: 0;
+}
+
+
+#footer{
+  display: flex;
+  background-color: white;
+  width: 100%;
+}
+
+.talk_input{
+  flex: 8;
+  height: 30rpx;
+  padding-top: 5rpx;
+}
+
+.talk_input_placeholder{
+ color: #edece8
+}
+
+.talk_input input{
+  height: 100%;
+  font-size: 28rpx;
+  line-height:100%;
+  padding-left: 10rpx;
+  margin: 10rpx;
+}
+
+.talk_commit{
+  flex: 2;
+}
+
+.talk_commit button{
+  height: 61rpx;
+  background-color:#02af00;
+  color:white;
+  font-size: 28rpx;
+  margin: 10rpx;
+  line-height:61rpx;
+}
+
+#talk_div{
+  padding-bottom: 150rpx;
+  background-color: #f8f8f8;
+  margin-left: 40rpx;
+  margin-right: 40rpx;
+}
+
+
+.talk_count{
+  text-align: right;
+  
+  font-size: 25rpx;
+  color: #9a9999;
+}
+
+.talk_count text{
+padding-top:20rpx;
+padding-right:20rpx;
+display:block;
+}
+
+.talk_ul{
+  margin-top: 10rpx;
+}
+
+.talk_li{
+  display: flex;
+  margin-top: 10rpx;
+}
+
+.talk_user_logo{
+  flex: 1
+}
+
+.talk_details{
+  flex: 8;
+  /* border-color: #edece8; */
+  border-bottom: 1rpx solid;
+  margin-right: 10rpx;
+  margin-left: 10rpx;
+  border-color:#edece8;
+}
+
+.talk_username{
+  font-weight: bold;
+  margin-left: 20rpx;
+  margin-right: 10rpx;
+}
+
+.talk_username text{
+  color: #c1c0c0;
+  font-size: 25rpx;
+}
+
+.talk_comments{
+/* margin-left: 20rpx; */
+padding-bottom:50rpx;
+font-size: 25rpx;
+padding-left:20rpx;
+}
+
+.talk_user_logo image{
+  width: 60rpx;
+  height: 60rpx;
+  border: 0.01rem;
+  border-radius: 30rpx;
+  margin-left: 40rpx;
+}

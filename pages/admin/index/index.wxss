@@ -1,0 +1,45 @@
+@import "weui.wxss";
+
+.main{
+  margin: 50rpx;
+  width: 100%;
+}
+
+/* .myul{
+  width: 85%;
+  height: 300rpx;
+  background-color: white;
+}
+
+.mytitle{
+  border-style: solid;
+  border-width: 1rpx;
+  border-color: #555;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding-top: 20rpx;
+  padding-left: 50rpx;
+  padding-bottom: 20rpx;
+}
+
+.mytext{
+  margin-top: 35rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+
+.mytext_ul{
+  display: flex;
+  text-align: center;
+}
+
+.mytext_li{
+  flex: 1;
+  padding-top: 10rpx;
+}
+
+.mytext_li image{
+  width: 50rpx;
+  height: 50rpx;
+} */

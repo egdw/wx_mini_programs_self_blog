@@ -1,0 +1,17 @@
+<!--index.wxml-->
+<view class='page_bg'>
+  <image mode="aspectFill" class='bg_image' src='https://t1.picb.cc/uploads/2018/08/08/Ju661y.md.jpg' />
+  <form class='login_box'>
+    <view class='username_item'>
+      <image class='username_svg' src='../../../images/nav/user2.png' />
+      <input class='bussiness_input' name="username" style="height:40rpx  line-height:40rpx " 
+      bindinput='userNameInput' placeholder='输入帐号'>{{userName}}</input>
+    </view>
+    <view class='password_item'>
+      <image class='password_svg' src='../../../images/admin/password.png' />
+      <input class='bussiness_input' password type="text" name="password" style="height:40px line-height:40px"
+       bindinput='passWordInput' placeholder='输入密码'>{{ userPassword}}</input>
+    </view>
+    <button form-type='submit' class='login_submit' bindtap="loginBtnClick" >登录</button> 
+  </form>
+</view>

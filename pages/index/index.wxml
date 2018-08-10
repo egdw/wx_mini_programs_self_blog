@@ -1,0 +1,35 @@
+<!--index.wxml-->
+<scroll-view id='scroll_main'>
+  <view id='header'>
+    <view class='main_bg'>
+      <view id='user'>
+        <view id='user_logo'>
+          <image src='http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/813b762640b088fb805bd8dea0c0d2e7.jpg'></image>
+        </view>
+        <view id='user_detail'>
+          <text class='blog_title'>恶搞大王的博客\n</text>
+          <text class='blog_title_desc'>Egdw's Blog</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='page_container'>
+    <view class='pages_ul'>
+      <view class='pages_li' data-id="{{item.objectId}}" bindtap='pageClick' wx:for="{{pages}}" wx:key="{{item.objectId}}">
+        <view class='pages_title'>
+          {{item.title}}
+        </view>
+        <view class='pages_text'>
+          {{item.desc}}
+        </view>
+
+        <view class='pages_date'>
+          {{item.createdAt}}发布 | {{item.watch}} 次浏览
+        </view>
+        <view class='pages_img'>
+          <image src='{{item.pic.url}}' mode='aspectFill'></image>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

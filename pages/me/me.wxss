@@ -1,0 +1,85 @@
+.main_bg {
+  width: 100%;
+  height: 334rpx;
+  text-align: center;
+  background-image: url('http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/ad53bc244048f8ec8044285325815277.jpg');
+  background-position: center center;
+  background-attachment: scroll;
+}
+
+.main_bg #user {
+  width: 100%;
+  height: 150rpx;
+  position: absolute;
+  top: 75rpx;
+}
+
+#user {
+  display: flex;
+}
+
+#user_logo image {
+  width: 120rpx;
+  height: 120rpx;
+  border-width: 5rpx;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.6);
+  border-radius: 60px;
+  float: right;
+  margin-top: 18rpx;
+}
+
+#user_logo {
+  flex: 3.5;
+}
+
+#user_detail {
+  flex: 4;
+  text-align: left;
+  display: flex;
+  margin-left: 20rpx;
+  flex-direction: column
+}
+
+.blog_title {
+  color: white;
+  opacity: 0.8;
+  font-size: 30rpx;
+  padding-top: 40rpx;
+  flex: 1;
+}
+
+.blog_title_desc{
+  color: white;
+  opacity: 0.8;
+  font-size: 30rpx;
+  flex: 1;
+}
+
+.tag_li{
+  display: flex;
+  padding-top: 10rpx;
+  border-width: 1rpx;
+  border-style: solid;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-color: #ccc;
+}
+
+.tag_title{
+  flex: 2;
+  text-align: right;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  font-size: 30rpx;
+}
+
+.tag_text{
+  flex: 6;
+  text-align: left;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  padding-left: 30rpx;
+  font-size: 30rpx;
+}
