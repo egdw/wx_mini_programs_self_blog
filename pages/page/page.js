@@ -15,7 +15,9 @@ Page({
     comments: null,
     currentCommentNum: 0,
     commentsHasData: false,
-    commentsAllCount: 0
+    commentsAllCount: 0,
+    preCommitTime:null,
+    inputComment:null
   },
 
   /**
@@ -141,6 +143,17 @@ Page({
       path: 'pages/page/page?id=' + this.data.pageid
     }
   },
+  bindMessage:function(e){
+    this.setData({
+      inputComment:e.detail.value
+    })
+  },
+  cleanInput: function () {
+    // var setMessage = { sendInfo: this.data.userMessage }
+    this.setData({
+      inputComment:null
+    })
+  },
   addcomments: function(e) {
     var that = this
     wx.getSetting({
@@ -149,12 +162,24 @@ Page({
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
             success: function(res) {
-              var comment = e.detail.value.inputComment
+              // var comment = e.detail.value.inputComment
+              var comment = that.data.inputComment
+
               if (comment == null || comment == '') {
                 wx.showToast({
                   title: '请输入评论内容',
                 })
               } else {
+                var preCommitTime = that.data.preCommitTime
+                if(preCommitTime != null){
+                  var m = new Date().getMinutes()
+                  if (m == preCommitTime){
+                    wx.showToast({
+                      title: '评论速度过快',
+                    })
+                    return;
+                  }
+                }
                 database.addComment(that.data.pageid, comment, res.userInfo.avatarUrl, res.userInfo.nickName, res.userInfo.city).then(data => {
                   var obj = data.data
                   if (obj == null) {
@@ -163,20 +188,33 @@ Page({
                     })
                   } else {
                     //添加评论成功
-
                     database.getCommentById(obj.objectId).then(data => {
-                      var arr = []
-                      arr.push(data.data)
+                      if (that.data.comments != null){
+                        //说明还没有下滑到底部.所以不提那家
+                        var arr = []
 
-                      that.setData({
-                        comments: arr.concat(that.data.comments)
-                      })
+                        arr.push(data.data)
+                        that.setData({
+                          comments: arr.concat(that.data.comments)
+                        })
+                      }
+                      
                       that.setData({
                         commentsHasData: true
                       })
                       that.setData({
                         commentsAllCount: that.data.commentsAllCount + 1
                       })
+                      
+                      that.setData({
+                        preCommitTime: new Date().getMinutes()
+                      })
+
+                      wx.showToast({
+                        title: '评论成功!',
+                      })
+
+                      that.cleanInput()
                     })
                   }
                 })
