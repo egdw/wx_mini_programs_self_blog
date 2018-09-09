@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <scroll-view id='scroll_main'>
   <view id='header'>
-    <view class='main_bg'>
+    <view class='main_bg' style="background-image:url({{bg}})">
       <view id='user'>
         <view id='user_logo'>
           <image src='http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/813b762640b088fb805bd8dea0c0d2e7.jpg'></image>

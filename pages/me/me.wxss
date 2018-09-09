@@ -56,6 +56,9 @@
   flex: 1;
 }
 
+.tag_ul{
+   padding-top: 50rpx;
+}
 .tag_li{
   display: flex;
   padding-top: 10rpx;

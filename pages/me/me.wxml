@@ -1,6 +1,6 @@
 <scroll-view id='main'>
   <view id='header'>
-    <view class='main_bg'>
+    <view class='main_bg' style="background-image:url({{bg}})">
       <view id='user'>
         <view id='user_logo'  bindtap='openAdmin'>
           <image src='http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/813b762640b088fb805bd8dea0c0d2e7.jpg'></image>
@@ -14,20 +14,12 @@
   </view>
   <view>
     <view class='tag_ul'>
-      <view class='tag_li'>
+      <view class='tag_li' wx:for="{{infos}}" wx:key="{{item.objectId}}">
         <view class='tag_title'>
-          地址 :
+          {{item.key}} :
         </view>
         <view class='tag_text'>
-          http://www.hongdeyan.com
-        </view>
-      </view>
-      <view class='tag_li'>
-        <view  class='tag_title'>
-          QQ :
-        </view>
-        <view class='tag_text'>
-          378759617
+          {{item.value}}
         </view>
       </view>
     </view>

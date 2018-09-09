@@ -54,6 +54,11 @@ Page({
     })
     database.addPageWatch(this.pageid)
     this.onReachBottom()
+    database.getRandomBg().then(function (data) {
+      self.setData({
+        bg: data.data
+      })
+    });
   },
 
   /**

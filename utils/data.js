@@ -105,7 +105,7 @@ function getCommentByPageId(pageid, num) {
     query.order("-createdAt");
     query.find().then(res => {
       var arr = []
-      for(var i =0;i<res.length;i++){
+      for (var i = 0; i < res.length; i++) {
         arr[i] = res[i]
       }
       if (res[0] == null || res[0] == undefined) {
@@ -132,12 +132,16 @@ function addComment(pageid, msg, pic, name, city) {
     query.set("pic", pic)
     query.set("nickname", name)
     query.set("provice", city)
-    
-    
+
+
     query.save().then(res => {
-      resolve({ data: res})
+      resolve({
+        data: res
+      })
     }).catch(err => {
-      resolve({ data: null })
+      resolve({
+        data: null
+      })
     })
   })
 }
@@ -145,13 +149,17 @@ function addComment(pageid, msg, pic, name, city) {
 /**
  * 根据id获取评论数据
  */
-function getCommentById(id){
-  return new Promise((reslove,reject) => {
+function getCommentById(id) {
+  return new Promise((resolve, reject) => {
     const query = Bmob.Query('Comments');
     query.get(id).then(res => {
-      reslove({data:res})
+      reslove({
+        data: res
+      })
     }).catch(err => {
-      reslove({ data: null })
+      resolve({
+        data: null
+      })
     })
   })
 }
@@ -159,15 +167,90 @@ function getCommentById(id){
 /**
  * 获取某个文章下评论的数量
  */
-function getCommentsCount(pageid){
-  return new Promise((reslove,reject)=>{
+function getCommentsCount(pageid) {
+  return new Promise((resolve, reject) => {
     const query = Bmob.Query('Comments');
     query.equalTo("pageid", "==", pageid)
     query.count().then(res => {
-      reslove({ data: res})
+      resolve({
+        data: res
+      })
     });
   })
-  
+
+}
+
+
+/**
+ * 随机获取一张背景图片
+ */
+function getRandomBg() {
+  return new Promise((resolve, reject) => {
+
+    //如果有缓存优先从缓存当中读取
+    wx.getStorage({
+      key: 'randomBg',
+      success: function (res) {
+        if (res.data != null && res.data != undefined) {
+          var randomNum = Math.floor(Math.random() * res.data.length);
+          resolve(
+            {
+              data: res.data[randomNum]
+            }
+          )
+        }
+      },
+      fail: function () {
+        const query = Bmob.Query('bgs');
+        //从bmob数据库中读取数据.
+        query.select("pic");
+        query.find().then(res => {
+          var arr = []
+          for (var i = 0; i < res.length; i++) {
+            arr[i] = res[i].pic.url
+          }
+          if (res[0] != null && res[0] != undefined) {
+            var randomNum = Math.floor(Math.random() * res.data.length);
+            wx.setStorage({
+              key: 'randomBg',
+              data: arr,
+            })
+            resolve({
+              data: res.data[randomNum]
+            })
+          }
+        });
+      }
+    })
+
+
+
+  });
+ 
+
+}
+
+
+//获取我的界面info数据
+function getMeInfo(){
+  return new Promise((resolve, reject) => {
+    const query = Bmob.Query('me');
+    query.find().then(res => {
+      var arr = []
+      for (var i = 0; i < res.length; i++) {
+        arr[i] = res[i]
+      }
+      if (res[0] == null || res[0] == undefined) {
+        resolve({
+          result: null
+        })
+      } else {
+        resolve({
+          result: arr
+        })
+      }
+    });
+  })
 }
 
 module.exports.login = login
@@ -178,3 +261,5 @@ exports.addComment = addComment
 exports.getCommentByPageId = getCommentByPageId
 exports.getCommentById = getCommentById
 exports.getCommentsCount = getCommentsCount
+exports.getRandomBg = getRandomBg
+exports.getMeInfo = getMeInfo
