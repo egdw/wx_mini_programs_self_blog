@@ -210,13 +210,13 @@ function getRandomBg() {
             arr[i] = res[i].pic.url
           }
           if (res[0] != null && res[0] != undefined) {
-            var randomNum = Math.floor(Math.random() * res.data.length);
+            var randomNum = Math.floor(Math.random() * arr.length);
             wx.setStorage({
               key: 'randomBg',
               data: arr,
             })
             resolve({
-              data: res.data[randomNum]
+              data: arr[randomNum]
             })
           }
         });
