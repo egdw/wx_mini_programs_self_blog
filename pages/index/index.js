@@ -23,11 +23,11 @@ Page({
   },
   onLoad: function() {
     var self = this;
-    database.getRandomBg().then(function(data) {
-      self.setData({
-        bg: data.data
-      })
-    });
+    // database.getRandomBg().then(function(data) {
+    //   self.setData({
+    //     bg: data.data
+    //   })
+    // });
   },
   pageClick: function(e) {
     console.log(e)
@@ -60,10 +60,13 @@ Page({
     var self = this;
     database.getPageByNum(this.data.currentnum).then(function(data) {
       if (data.result != null) {
+        console.log("index.js得到数据")
+        console.log(data.result)
         self.data.pages = data.result
         self.setData({
           pages: self.data.pages
         })
+        console.log(self.pages)
       }
     })
   },

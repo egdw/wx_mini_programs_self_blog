@@ -1,6 +1,5 @@
 const app = getApp()
 var database = require("../../utils/data.js")
-
 Page({
 
   /**
@@ -32,16 +31,22 @@ Page({
     wx.showLoading({
       title: '加载中...',
     })
+
     database.getPageById(this.pageid).then(data => {
       if (data.result != null) {
         self.setData({
           page: data.result
         })
-        let text = app.towxml.toJson(data.result.text, 'markdown');
-
-        //设置文档显示主题，默认'light'
-        text.theme = 'light';
-
+        let text = app.towxml(data.result.text,'markdown',{
+          theme:'light',					// 主题，默认`light`
+          events:{					// 为元素绑定的事件方法
+            tap:(e)=>{
+              console.log('tap',e);
+            }
+          }
+        });
+        // let text = app.towxml.toJson(data.result.text, 'markdown');
+          console.log(data.result.text)
         //设置数据
         self.setData({
           article: text
@@ -52,13 +57,15 @@ Page({
       }
       wx.hideLoading()
     })
-    database.addPageWatch(this.pageid)
+    // 添加访问人数
+    // database.addPageWatch(this.pageid)
     this.onReachBottom()
-    database.getRandomBg().then(function (data) {
-      self.setData({
-        bg: data.data
-      })
-    });
+    // 获取随机壁纸
+    // database.getRandomBg().then(function (data) {
+    //   self.setData({
+    //     bg: data.data
+    //   })
+    // });
   },
 
   /**
@@ -105,32 +112,32 @@ Page({
     })
     var that = this
     //到达底部在主动获取评论数据
-    database.getCommentByPageId(this.data.pageid, this.data.currentCommentNum).then(data => {
-      var arr = data.result
-      if (arr != null) {
-        //如果数据存在
-        if (that.data.comments == null) {
-          that.setData({
-            comments: arr,
-            commentsHasData: true
-          })
-        } else {
-          that.setData({
-            comments: that.data.comments.concat(arr),
-            commentsHasData: true
-          })
-        }
-        that.setData({
-          currentCommentNum: that.data.currentCommentNum + 1
-        })
-      }
-      wx.hideLoading()
-    })
-    database.getCommentsCount(that.pageid).then(data => {
-      that.setData({
-        commentsAllCount: data.data
-      })
-    })
+    // database.getCommentByPageId(this.data.pageid, this.data.currentCommentNum).then(data => {
+    //   var arr = data.result
+    //   if (arr != null) {
+    //     //如果数据存在
+    //     if (that.data.comments == null) {
+    //       that.setData({
+    //         comments: arr,
+    //         commentsHasData: true
+    //       })
+    //     } else {
+    //       that.setData({
+    //         comments: that.data.comments.concat(arr),
+    //         commentsHasData: true
+    //       })
+    //     }
+    //     that.setData({
+    //       currentCommentNum: that.data.currentCommentNum + 1
+    //     })
+    //   }
+    //   wx.hideLoading()
+    // })
+    // database.getCommentsCount(that.pageid).then(data => {
+    //   that.setData({
+    //     commentsAllCount: data.data
+    //   })
+    // })
   },
   goBack: function() {
     //返回首页

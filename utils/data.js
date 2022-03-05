@@ -1,5 +1,7 @@
-var Bmob = require('bmob.js');
-Bmob.initialize("911fddd3ec026014736dec243f32cd1b", "ef59e6a393c711568bd2a732959b32ad");
+// var Bmob = require('bmob.js');
+// Bmob.initialize("911fddd3ec026014736dec243f32cd1b", "ef59e6a393c711568bd2a732959b32ad");
+wx.cloud.init()
+const db = wx.cloud.database()
 
 /**
  * 管理员后台登录
@@ -32,29 +34,26 @@ function login(username, password) {
  */
 function getPageByNum(num) {
   return new Promise((resolve, reject) => {
-    const query = Bmob.Query("page");
-    query.skip(num * 10)
-    query.limit(10)
-    query.order("-createdAt");
-    query.find().then(res => {
-      if (res[0] == null || res[0] == undefined) {
-        resolve({
-          result: null
-        })
-      } else {
-        var arr = [];
-        for (var i = 0; i < res.length; i++) {
-          arr[i] = res[i]
+    db.collection("pages")
+    .skip(num*10)
+    .limit(10)
+    .get({
+      success:function(res){
+        if(res.data.length == 0){
+          resolve({
+            result: null
+          })
+        }else{
+          var arr = [];
+          for (var i = 0; i < res.data.length; i++) {
+            arr[i] = res.data[i]
+          }
+          resolve({
+            result: arr
+          })
         }
-        resolve({
-          result: arr
-        })
       }
-    }).catch(err => {
-      resolve({
-        result: null
-      })
-    })
+    });
   })
 }
 
@@ -63,19 +62,28 @@ function getPageByNum(num) {
  */
 function getPageById(id) {
   return new Promise((resolve, reject) => {
-    const query = Bmob.Query("page");
-    query.equalTo("objectId", "==", id)
-    query.find().then(res => {
-      if (res[0] == null || res[0] == undefined) {
-        resolve({
-          result: null
-        })
-      } else {
-        resolve({
-          result: res[0]
-        })
+    db.collection("pages")
+    .where({
+      _id:db.command.eq(id)
+    }).get({
+      success:function(res){
+        if (res.data[0] == null || res.data[0] == undefined) {
+          resolve({
+            result: null
+          })
+        } else {
+          console.log("查询到的单挑数据")
+          console.log(res.data[0])
+          resolve({
+            result: res.data[0]
+          })
+        }
       }
     })
+    // query.equalTo("objectId", "==", id)
+    // query.find().then(res => {
+      
+    // })
   })
 }
 

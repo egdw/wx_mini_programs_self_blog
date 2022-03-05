@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "文章"
+  "navigationBarTitleText": "文章",
+  "usingComponents": {
+    "towxml":"/towxml/towxml"
+  }
 }

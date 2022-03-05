@@ -1,20 +1,22 @@
 //app.js
-const Towxml = require('/towxml/main');
+// const Towxml = require('/towxml/main');
 //初始化bmob
-var Bmob = require('utils/bmob.js');
-Bmob.initialize("911fddd3ec026014736dec243f32cd1b", "ef59e6a393c711568bd2a732959b32ad");
+// var Bmob = require('utils/bmob.js');
+// Bmob.initialize("911fddd3ec026014736dec243f32cd1b", "ef59e6a393c711568bd2a732959b32ad");
+
 App({
+  towxml:require('/towxml/index'),
   onLaunch: function () {
     //初始化数据
     //设置背景图片
-    wx.setStorage({
-      key: 'background_img',
-      data: 'http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/ad53bc244048f8ec8044285325815277.jpg',
-    })
-    wx.setStorage({
-      key: 'logo',
-      data: 'http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/813b762640b088fb805bd8dea0c0d2e7.jpg',
-    })
+    // wx.setStorage({
+    //   key: 'background_img',
+    //   data: 'http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/ad53bc244048f8ec8044285325815277.jpg',
+    // })
+    // wx.setStorage({
+    //   key: 'logo',
+    //   data: 'http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/813b762640b088fb805bd8dea0c0d2e7.jpg',
+    // })
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -51,6 +53,6 @@ App({
   },
   globalData: {
     userInfo: null
-  },
-  towxml: new Towxml()
+  }
+  // towxml: new Towxml()
 })

@@ -15,7 +15,7 @@
   </view>
   <view class='page_container'>
     <view class='pages_ul'>
-      <view class='pages_li' data-id="{{item.objectId}}" bindtap='pageClick' wx:for="{{pages}}" wx:key="{{item.objectId}}">
+      <view class='pages_li' data-id="{{item._id}}" bindtap='pageClick' wx:for="{{pages}}" wx:key="{{item._id}}">
         <view class='pages_title'>
           {{item.title}}
         </view>
