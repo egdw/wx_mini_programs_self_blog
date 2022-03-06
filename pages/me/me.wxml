@@ -3,7 +3,7 @@
     <view class='main_bg' style="background-image:url({{bg}})">
       <view id='user'>
         <view id='user_logo'  bindtap='openAdmin'>
-          <image src='http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/813b762640b088fb805bd8dea0c0d2e7.jpg'></image>
+          <image src='https://t1.picb.cc/uploads/2018/08/08/Ju6enK.jpg'></image>
         </view>
         <view id='user_detail'>
           <text class='blog_title'>恶搞大王的博客\n</text>
@@ -14,7 +14,7 @@
   </view>
   <view>
     <view class='tag_ul'>
-      <view class='tag_li' wx:for="{{infos}}" wx:key="{{item.objectId}}">
+      <view class='tag_li' wx:for="{{infos}}" wx:key="objectId">
         <view class='tag_title'>
           {{item.key}} :
         </view>

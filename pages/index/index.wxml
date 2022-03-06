@@ -4,7 +4,7 @@
     <view class='main_bg' style="background-image:url({{bg}})">
       <view id='user'>
         <view id='user_logo'>
-          <image src='http://bmob-cdn-20982.b0.upaiyun.com/2018/08/10/813b762640b088fb805bd8dea0c0d2e7.jpg'></image>
+          <image src='https://t1.picb.cc/uploads/2018/08/08/Ju6enK.jpg'></image>
         </view>
         <view id='user_detail'>
           <text class='blog_title'>恶搞大王的博客\n</text>
@@ -15,7 +15,7 @@
   </view>
   <view class='page_container'>
     <view class='pages_ul'>
-      <view class='pages_li' data-id="{{item._id}}" bindtap='pageClick' wx:for="{{pages}}" wx:key="{{item._id}}">
+      <view class='pages_li' data-id="{{item._id}}" bindtap='pageClick' wx:for="{{pages}}" wx:key="_id">
         <view class='pages_title'>
           {{item.title}}
         </view>
@@ -27,7 +27,7 @@
           {{item.createdAt}}发布 | {{item.watch}} 次浏览
         </view>
         <view class='pages_img'>
-          <image src='{{item.pic.url}}' mode='aspectFill'></image>
+          <image src='{{item.pic}}' mode='aspectFill'></image>
         </view>
       </view>
     </view>

@@ -23,11 +23,14 @@ Page({
   },
   onLoad: function() {
     var self = this;
-    // database.getRandomBg().then(function(data) {
-    //   self.setData({
-    //     bg: data.data
-    //   })
-    // });
+    console.log("尝试加载图片")
+    database.getRandomBg().then(function(data) {
+      console.log("获取到的图片数据")
+      console.log(data)
+      self.setData({
+        bg: data.data
+      })
+    });
   },
   pageClick: function(e) {
     console.log(e)

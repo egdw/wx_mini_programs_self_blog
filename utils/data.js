@@ -1,5 +1,3 @@
-// var Bmob = require('bmob.js');
-// Bmob.initialize("911fddd3ec026014736dec243f32cd1b", "ef59e6a393c711568bd2a732959b32ad");
 wx.cloud.init()
 const db = wx.cloud.database()
 
@@ -7,24 +5,27 @@ const db = wx.cloud.database()
  * 管理员后台登录
  */
 function login(username, password) {
+  console.log("username:",username)
+  console.log("password:",password)
   return new Promise((resolve, reject) => {
-    const query = Bmob.Query("admin");
-    query.equalTo("username", "==", username);
-    query.equalTo("password", "==", password);
-    query.find().then(res => {
-      if (res[0] == null || res[0] == undefined) {
-        resolve({
-          flag: false
-        })
-      } else {
-        resolve({
-          flag: true
-        })
+    db.collection("admin")
+    .where({
+      username:db.command.eq(username),
+      password:db.command.eq(password)
+    }).get({
+      success:function(res){
+        console.log("登录结果")
+        console.log(res)
+        if (res.data[0] == null || res.data[0] == undefined) {
+          resolve({
+            flag: false
+          })
+        } else {
+          resolve({
+            flag: true
+          })
+        }
       }
-    }).catch(err => {
-      resolve({
-        flag: false
-      })
     })
   })
 }
@@ -35,6 +36,7 @@ function login(username, password) {
 function getPageByNum(num) {
   return new Promise((resolve, reject) => {
     db.collection("pages")
+    .orderBy("createdAt","desc")
     .skip(num*10)
     .limit(10)
     .get({
@@ -47,6 +49,7 @@ function getPageByNum(num) {
           var arr = [];
           for (var i = 0; i < res.data.length; i++) {
             arr[i] = res.data[i]
+            console.log(arr[i].createdAt)
           }
           resolve({
             result: arr
@@ -80,10 +83,6 @@ function getPageById(id) {
         }
       }
     })
-    // query.equalTo("objectId", "==", id)
-    // query.find().then(res => {
-      
-    // })
   })
 }
 
@@ -91,12 +90,8 @@ function getPageById(id) {
  * 添加阅读数量
  */
 function addPageWatch(id) {
-  const query = Bmob.Query('page')
-  query.get(id).then(res => {
-    res.increment('watch')
-    res.save()
-  }).catch(err => {
-    console.log(err)
+  db.collection("pages").doc(id).update({
+    watch:db.command.inc(1)
   })
 }
 
@@ -106,24 +101,28 @@ function addPageWatch(id) {
  */
 function getCommentByPageId(pageid, num) {
   return new Promise((resolve, reject) => {
-    const query = Bmob.Query('Comments')
-    query.equalTo("pageid", "==", pageid)
-    query.skip(num * 20)
-    query.limit(20)
-    query.order("-createdAt");
-    query.find().then(res => {
-      var arr = []
-      for (var i = 0; i < res.length; i++) {
-        arr[i] = res[i]
-      }
-      if (res[0] == null || res[0] == undefined) {
-        resolve({
-          result: null
-        })
-      } else {
-        resolve({
-          result: arr
-        })
+    db.collection("comments")
+    .where({
+      pageid:db.command.eq(pageid)
+    })
+    .skip(num * 20)
+    .limit(20)
+    .orderBy("createdAt","asc")
+    .get({
+      success:function(res){
+        var arr = []
+        for (var i = 0; i < res.data.length; i++) {
+          arr[i] = res.data[i]
+        }
+        if (res.data[0] == null || res.data[0] == undefined) {
+          resolve({
+            result: null
+          })
+        } else {
+          resolve({
+            result: arr
+          })
+        }
       }
     })
   })
@@ -134,22 +133,20 @@ function getCommentByPageId(pageid, num) {
  */
 function addComment(pageid, msg, pic, name, city) {
   return new Promise((resolve, reject) => {
-    const query = Bmob.Query('Comments');
-    query.set("pageid", pageid)
-    query.set("message", msg)
-    query.set("pic", pic)
-    query.set("nickname", name)
-    query.set("provice", city)
-
-
-    query.save().then(res => {
-      resolve({
-        data: res
-      })
-    }).catch(err => {
-      resolve({
-        data: null
-      })
+    db.collection("comments").add({
+      data:{
+        pageid:pageid,
+        message:msg,
+        pic:pic,
+        nickname:name,
+        provice:city,
+        createdAt:db.serverDate()
+      },
+      success:function(res){
+        resolve({
+          data: res
+        })
+      }
     })
   })
 }
@@ -159,15 +156,14 @@ function addComment(pageid, msg, pic, name, city) {
  */
 function getCommentById(id) {
   return new Promise((resolve, reject) => {
-    const query = Bmob.Query('Comments');
-    query.get(id).then(res => {
-      reslove({
-        data: res
-      })
-    }).catch(err => {
-      resolve({
-        data: null
-      })
+    db.collection("comments")
+    .where({_id:db.command.eq(id)})
+    .get({
+      success:function(res){
+        reslove({
+          data: res.data
+        })
+      }
     })
   })
 }
@@ -177,13 +173,15 @@ function getCommentById(id) {
  */
 function getCommentsCount(pageid) {
   return new Promise((resolve, reject) => {
-    const query = Bmob.Query('Comments');
-    query.equalTo("pageid", "==", pageid)
-    query.count().then(res => {
-      resolve({
-        data: res
-      })
-    });
+    db.collection("comments")
+    .where({pageid:db.command.eq(pageid)})
+    .count({
+      success:function(res){
+        resolve({
+          data: res.total
+        })
+      }
+    })
   })
 
 }
@@ -196,9 +194,11 @@ function getRandomBg() {
   return new Promise((resolve, reject) => {
 
     //如果有缓存优先从缓存当中读取
+    console.log("如果有缓存优先从缓存当中读取")
     wx.getStorage({
       key: 'randomBg',
       success: function (res) {
+        console.log("有图片缓存")
         if (res.data != null && res.data != undefined) {
           var randomNum = Math.floor(Math.random() * res.data.length);
           resolve(
@@ -209,55 +209,77 @@ function getRandomBg() {
         }
       },
       fail: function () {
-        const query = Bmob.Query('bgs');
-        //从bmob数据库中读取数据.
-        query.select("pic");
-        query.find().then(res => {
-          var arr = []
-          for (var i = 0; i < res.length; i++) {
-            arr[i] = res[i].pic.url
+        console.log("没有数据")
+      
+        db.collection("bgs").get({
+          success:function(res){
+            console.log("图片请求成功")
+            console.log(res)
+            var arr = []
+            for (var i = 0; i < res.data.length; i++) {
+              arr[i] = res.data[i].pic
+            }
+            if (res.data[0] != null && res.data[0] != undefined) {
+              var randomNum = Math.floor(Math.random() * arr.length);
+              wx.setStorage({
+                key: 'randomBg',
+                data: arr,
+              })
+              console.log("查询到的randomnum",randomNum)
+              console.log("结果：",arr)
+              resolve({
+                data: arr[randomNum]
+              })
+            }
+          },fail:function(res){
+            console.log("请求失败")
+            console.log(res)
           }
-          if (res[0] != null && res[0] != undefined) {
-            var randomNum = Math.floor(Math.random() * arr.length);
-            wx.setStorage({
-              key: 'randomBg',
-              data: arr,
-            })
-            resolve({
-              data: arr[randomNum]
-            })
-          }
-        });
+        })
       }
     })
-
-
-
   });
- 
-
 }
 
 
 //获取我的界面info数据
 function getMeInfo(){
   return new Promise((resolve, reject) => {
-    const query = Bmob.Query('me');
-    query.find().then(res => {
-      var arr = []
-      for (var i = 0; i < res.length; i++) {
-        arr[i] = res[i]
+    db.collection("me").get({
+      success:function(res){
+        var arr = []
+        for (var i = 0; i < res.data.length; i++) {
+          arr[i] = res.data[i]
+        }
+        if (res.data[0] == null || res.data[0] == undefined) {
+          resolve({
+            result: null
+          })
+        } else {
+          resolve({
+            result: arr
+          })
+        }
       }
-      if (res[0] == null || res[0] == undefined) {
-        resolve({
-          result: null
-        })
-      } else {
-        resolve({
-          result: arr
-        })
+    })
+  })
+}
+
+
+//获取我的界面info数据
+function addPage(title,text,desc,pic){
+  return new Promise((resolve, reject) => {
+    db.collection("pages")
+    .add({
+      data:{
+        title:title,
+        text:text,
+        desc:desc,
+        pic:pic,
+        watch:0,
+        createdAt:db.serverDate()
       }
-    });
+    })
   })
 }
 
@@ -266,6 +288,7 @@ exports.getPageByNum = getPageByNum
 exports.getPageById = getPageById
 exports.addPageWatch = addPageWatch
 exports.addComment = addComment
+exports.addPage = addPage
 exports.getCommentByPageId = getCommentByPageId
 exports.getCommentById = getCommentById
 exports.getCommentsCount = getCommentsCount

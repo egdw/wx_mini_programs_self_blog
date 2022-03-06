@@ -1,5 +1,5 @@
-var Bmob = require('../../../utils/bmob.js');
-Bmob.initialize("911fddd3ec026014736dec243f32cd1b", "ef59e6a393c711568bd2a732959b32ad");
+const app = getApp()
+var database = require("../../../utils/data.js")
 Page({
   /**
    * 页面的初始数据
@@ -22,14 +22,18 @@ Page({
         var tempFilePaths = res.tempFilePaths
         var file;
         for (let item of tempFilePaths) {
-          console.log('itemn', item)
-          file = Bmob.File('pic.jpg', item);
+          console.log('item', item)
+          wx.cloud.uploadFile({
+            cloudPath: 'pic.png', // 上传至云端的路径
+            filePath: item, // 小程序临时文件路径
+            success: res => {
+              // 返回文件 ID
+              console.log(res.fileID)
+              that.uploadFileSuccess(res)
+            },
+            fail: console.error
+          })
         }
-        file.save().then(res => {
-          console.log(res.length);
-          console.log(res);
-          that.uploadFileSuccess(res)
-        })
       }
     })
   },
@@ -43,7 +47,7 @@ Page({
     var that = this
     if (res.length > 0) {
       that.setData({
-        currentImgUrl: JSON.parse(res[0])
+        currentImgUrl: res.fileID
       })
       console.log(that.data.currentImgUrl)
     }
@@ -106,28 +110,18 @@ Page({
     var pagedesc = e.detail.value.pagedesc;
     var pagetext = e.detail.value.pagetext;
     var pagetitle = e.detail.value.pagetitle;
-    var currentImgUrl = this.data.currentImgUrl
+    var currentImgUrl = this.data.files[0]
     if (currentImgUrl == null) {
       wx.showToast({
         title: '需要上传一张封面!',
       })
     } else {
       console.log(currentImgUrl)
-      const query = Bmob.Query('page');
-      query.set("title", pagetitle)
-      query.set("text", pagetext)
-      query.set("desc", pagedesc)
-      query.set("pic", {
-        "__type": "File",
-        "group": currentImgUrl.cdn,
-        "url": currentImgUrl.url,
-        "filename": currentImgUrl.filename
+      database.addPage(pagetitle,pagetext,pagedesc,currentImgUrl).then(data => {
+        var result = data.result
+        console.log(result)
       })
-      query.save().then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
+  
       wx.switchTab({
         url: '../../../pages/index/index',
       })

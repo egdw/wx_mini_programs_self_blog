@@ -66,7 +66,6 @@ Page({
     }
   },
   login:function(username,password){
-    // const query = Bmob.Query('admin');
     var self = this;
     database.login(username, password).then(function (data) {
       console.log(data)

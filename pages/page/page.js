@@ -25,6 +25,7 @@ Page({
   onLoad: function(options) {
     var self = this;
     this.pageid = options.id
+    console.log("获取到的pageid：",this.pageid)
     this.setData({
       pageid: options.id
     })
@@ -45,8 +46,6 @@ Page({
             }
           }
         });
-        // let text = app.towxml.toJson(data.result.text, 'markdown');
-          console.log(data.result.text)
         //设置数据
         self.setData({
           article: text
@@ -58,14 +57,14 @@ Page({
       wx.hideLoading()
     })
     // 添加访问人数
-    // database.addPageWatch(this.pageid)
+    database.addPageWatch(this.pageid)
     this.onReachBottom()
     // 获取随机壁纸
-    // database.getRandomBg().then(function (data) {
-    //   self.setData({
-    //     bg: data.data
-    //   })
-    // });
+    database.getRandomBg().then(function (data) {
+      self.setData({
+        bg: data.data
+      })
+    });
   },
 
   /**
@@ -112,32 +111,32 @@ Page({
     })
     var that = this
     //到达底部在主动获取评论数据
-    // database.getCommentByPageId(this.data.pageid, this.data.currentCommentNum).then(data => {
-    //   var arr = data.result
-    //   if (arr != null) {
-    //     //如果数据存在
-    //     if (that.data.comments == null) {
-    //       that.setData({
-    //         comments: arr,
-    //         commentsHasData: true
-    //       })
-    //     } else {
-    //       that.setData({
-    //         comments: that.data.comments.concat(arr),
-    //         commentsHasData: true
-    //       })
-    //     }
-    //     that.setData({
-    //       currentCommentNum: that.data.currentCommentNum + 1
-    //     })
-    //   }
-    //   wx.hideLoading()
-    // })
-    // database.getCommentsCount(that.pageid).then(data => {
-    //   that.setData({
-    //     commentsAllCount: data.data
-    //   })
-    // })
+    database.getCommentByPageId(this.data.pageid, this.data.currentCommentNum).then(data => {
+      var arr = data.result
+      if (arr != null) {
+        //如果数据存在
+        if (that.data.comments == null) {
+          that.setData({
+            comments: arr,
+            commentsHasData: true
+          })
+        } else {
+          that.setData({
+            comments: that.data.comments.concat(arr),
+            commentsHasData: true
+          })
+        }
+        that.setData({
+          currentCommentNum: that.data.currentCommentNum + 1
+        })
+      }
+      wx.hideLoading()
+    })
+    database.getCommentsCount(that.pageid).then(data => {
+      that.setData({
+        commentsAllCount: data.data
+      })
+    })
   },
   goBack: function() {
     //返回首页
