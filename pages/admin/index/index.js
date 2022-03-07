@@ -1,5 +1,7 @@
 const app = getApp()
 var database = require("../../../utils/data.js")
+var uuid = require("../../../utils/uuid.js")
+
 Page({
   /**
    * 页面的初始数据
@@ -20,11 +22,12 @@ Page({
         });
         console.log(res)
         var tempFilePaths = res.tempFilePaths
-        var file;
         for (let item of tempFilePaths) {
           console.log('item', item)
+          const imageName = uuid.uuid()+".png";
+          console.log(imageName)
           wx.cloud.uploadFile({
-            cloudPath: 'pic.png', // 上传至云端的路径
+            cloudPath: imageName, // 上传至云端的路径
             filePath: item, // 小程序临时文件路径
             success: res => {
               // 返回文件 ID
@@ -111,6 +114,7 @@ Page({
     var pagedesc = e.detail.value.pagedesc;
     var pagetext = e.detail.value.pagetext;
     var pagetitle = e.detail.value.pagetitle;
+    var pagepassword = e.detail.value.pagepassword;
     var currentImgUrl = this.data.currentImgUrl
     if (currentImgUrl == null) {
       wx.showToast({
@@ -118,7 +122,7 @@ Page({
       })
     } else {
       console.log(currentImgUrl)
-      database.addPage(pagetitle,pagetext,pagedesc,currentImgUrl).then(data => {
+      database.addPage(pagetitle,pagetext,pagedesc,currentImgUrl,pagepassword).then(data => {
         var result = data.result
         console.log(result)
       })

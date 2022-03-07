@@ -12,6 +12,32 @@
       </view>
     </view>
   </view>
+
+  <!-- 如果需要输入密码 -->
+  <block wx:if="{{isShowConfirm}}">
+      <view class='toast-box'>
+        <view class='toastbg'></view>
+        <view class='showToast'>
+            <view class='toast-title'>
+                <text>请输入查看密码</text>
+            </view>
+            <view class='toast-main'>
+                <view class='toast-input'>
+                    <input type='password' placeholder='输入查看密码' bindinput='setValue' data-name='stuEidtName'></input>
+                </view>
+            </view>
+            <view class='toast-button'>
+                <view class='button1'>
+                    <button catchtap='cancel'>取消</button>
+                </view>
+                <view class='button2'>
+                    <button data-url="../allOrder/allOrder" catchtap='confirmAcceptance'>确定</button>
+                </view>
+            </view>
+        </view>
+    </view>
+  </block>
+
   <view id='main'>
     <view id='main_top'>
       <view id='main_title'>
@@ -25,13 +51,13 @@
         <text> 返回首页 </text>
       </view>
     </view>
-    <view id='main_page'>
+    <view id='main_page' wx:if="{{!isShowConfirm}}">
       <!-- <import src="../../towxml/entry.wxml" /> -->
       <towxml nodes="{{article}}"/>
     </view>
   </view>
   <view id='talk_div' wx:if="{{commentsHasData}}">
-    <view id='talk'>
+    <view id='talk' wx:if="{{!isShowConfirm}}">
       <view class='talk_count'>
         <text>共{{commentsAllCount}}条评论</text>
       </view>
@@ -56,7 +82,7 @@
   </view>
   <form>
 
-    <view id='footer_div'>
+    <view id='footer_div'  wx:if="{{!isShowConfirm}}">
 
       <view id='footer'>
         <view class='talk_input'>

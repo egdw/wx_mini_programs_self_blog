@@ -293,7 +293,7 @@ function getMeInfo(){
 
 
 //获取我的界面info数据
-function addPage(title,text,desc,pic){
+function addPage(title,text,desc,pic,password){
   return new Promise((resolve, reject) => {
     db.collection("pages")
     .add({
@@ -303,6 +303,7 @@ function addPage(title,text,desc,pic){
         desc:desc,
         pic:pic,
         watch:0,
+        password:password,
         createdAt:db.serverDate()
       }
     })

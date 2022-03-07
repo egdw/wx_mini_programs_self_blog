@@ -29,6 +29,15 @@
       </view>
     </view>
 
+    <view class="weui-cells__title">查看密码</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <input class="weui-input" name="pagepassword" maxlength='100' placeholder="请输入密码，为空表示没有密码"/>
+        </view>
+      </view>
+    </view>
+
 
     <view class="page__bd">
       <view class="weui-cells">

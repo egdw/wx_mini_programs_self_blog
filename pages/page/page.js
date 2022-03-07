@@ -16,7 +16,10 @@ Page({
     commentsHasData: false,
     commentsAllCount: 0,
     preCommitTime:null,
-    inputComment:null
+    inputComment:null,
+    isShowConfirm:false,
+    realPd:null, //真实查看密码
+    checkPd:null //用户输入密码
   },
 
   /**
@@ -51,6 +54,17 @@ Page({
         self.setData({
           article: text
         });
+        if(typeof data.result.password != 'undefined'){
+          // self.setData({
+          //   isShowConfirm:false
+          // })
+          if(data.result.password!=""){
+            self.setData({
+              realPd:data.result.password,
+              isShowConfirm:true
+            })
+          }
+        }
         wx.setNavigationBarTitle({
           title: data.result.title
         })
@@ -144,6 +158,33 @@ Page({
     wx.switchTab({
       url: '../../pages/index/index',
     })
+  },
+
+  setValue: function (e) {
+    this.setData({
+      checkPd: e.detail.value
+    })
+  },
+  cancel: function () {
+    var that = this
+    that.setData({
+      isShowConfirm: false,
+    })
+    that.goBack()
+  },
+  confirmAcceptance:function(){
+    var that = this
+    if (that.data.checkPd == that.data.realPd){
+      that.setData({
+        isShowConfirm: false,
+      })
+    }else{
+      wx.showToast({
+        title: '密码错误',
+        icon: 'error',
+        duration: 1000
+      })
+    }
   },
   /**
    * 用户点击右上角分享
