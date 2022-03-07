@@ -29,7 +29,25 @@ function login(username, password) {
     })
   })
 }
-
+function dateFormat(fmt, date) {
+  let ret;
+  const opt = {
+      "Y+": date.getFullYear().toString(),        // 年
+      "m+": (date.getMonth() + 1).toString(),     // 月
+      "d+": date.getDate().toString(),            // 日
+      "H+": date.getHours().toString(),           // 时
+      "M+": date.getMinutes().toString(),         // 分
+      "S+": date.getSeconds().toString()          // 秒
+      // 有其他格式化字符需求可以继续添加，必须转化成字符串
+  };
+  for (let k in opt) {
+      ret = new RegExp("(" + k + ")").exec(fmt);
+      if (ret) {
+          fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+      };
+  };
+  return fmt;
+}
 /**
  * 根据页码获取文章
  */
@@ -49,7 +67,12 @@ function getPageByNum(num) {
           var arr = [];
           for (var i = 0; i < res.data.length; i++) {
             arr[i] = res.data[i]
-            console.log(arr[i].createdAt)
+            if(arr[i].createdAt!=null){
+              arr[i].createdAt = dateFormat("YYYY-mm-dd HH:MM:SS",arr[i].createdAt)
+            }else{
+              arr[i].createdAt = "未知时间"
+            }
+            // console.log(dateFormat("YYYY-mm-dd HH:MM:SS",arr[i].createdAt))
           }
           resolve({
             result: arr
@@ -75,8 +98,11 @@ function getPageById(id) {
             result: null
           })
         } else {
-          console.log("查询到的单挑数据")
-          console.log(res.data[0])
+          if(res.data[0].createdAt!=null){
+            res.data[0].createdAt = dateFormat("YYYY-mm-dd HH:MM:SS",res.data[0].createdAt)
+          }else{
+            res.data[0].createdAt = "未知时间"
+          }
           resolve({
             result: res.data[0]
           })

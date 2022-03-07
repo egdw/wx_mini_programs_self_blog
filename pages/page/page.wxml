@@ -18,16 +18,15 @@
         <text>{{page.title}}</text>
       </view>
       <view id='main_date'>
-        <text> {{page.createdAt}}发布，{{page.watch}} 人读过</text>
+        <!-- <text> {{page.createdAt}}发布，{{page.watch}} 人读过</text> -->
+        <text> {{page.createdAt}}发布</text>
       </view>
       <view id='back' bindtap='goBack'>
         <text> 返回首页 </text>
       </view>
     </view>
     <view id='main_page'>
-      <!-- 暂时还没有数据.... -->
-      <import src="../../towxml/entry.wxml" />
-      <!-- <template is="entry" data="{{...article}}" /> -->
+      <!-- <import src="../../towxml/entry.wxml" /> -->
       <towxml nodes="{{article}}"/>
     </view>
   </view>

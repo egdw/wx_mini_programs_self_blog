@@ -38,6 +38,7 @@ Page({
         self.setData({
           page: data.result
         })
+        console.log(data.result)
         let text = app.towxml(data.result.text,'markdown',{
           theme:'light',					// 主题，默认`light`
           events:{					// 为元素绑定的事件方法

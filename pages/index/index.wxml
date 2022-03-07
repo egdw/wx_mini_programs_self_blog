@@ -24,7 +24,8 @@
         </view>
 
         <view class='pages_date'>
-          {{item.createdAt}}发布 | {{item.watch}} 次浏览
+          <!-- {{item.createdAt}}发布 | {{item.watch}} 次浏览 -->
+          {{item.createdAt}}发布
         </view>
         <view class='pages_img'>
           <image src='{{item.pic}}' mode='aspectFill'></image>

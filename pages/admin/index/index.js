@@ -29,7 +29,7 @@ Page({
             success: res => {
               // 返回文件 ID
               console.log(res.fileID)
-              that.uploadFileSuccess(res)
+              that.uploadFileSuccess(res.fileID)
             },
             fail: console.error
           })
@@ -45,12 +45,13 @@ Page({
   },
   uploadFileSuccess: function(res) {
     var that = this
-    if (res.length > 0) {
+    // if (res.length > 0) {
+      console.log(res)
       that.setData({
-        currentImgUrl: res.fileID
+        currentImgUrl: res
       })
       console.log(that.data.currentImgUrl)
-    }
+    // }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -110,7 +111,7 @@ Page({
     var pagedesc = e.detail.value.pagedesc;
     var pagetext = e.detail.value.pagetext;
     var pagetitle = e.detail.value.pagetitle;
-    var currentImgUrl = this.data.files[0]
+    var currentImgUrl = this.data.currentImgUrl
     if (currentImgUrl == null) {
       wx.showToast({
         title: '需要上传一张封面!',
